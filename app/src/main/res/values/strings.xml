@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Micah\'s Minesweeper</string>
+    <string name="Beginner">Beginner</string>
+    <string name="Intermediate">Intermediate</string>
+    <string name="Advanced">Advanced</string>
+    <string name="Custom">Custom - Coming Soon!</string>
+    <string name="High_Scores">High Scores - Coming Soon!</string>
+</resources>
