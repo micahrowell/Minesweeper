@@ -19,6 +19,14 @@ public class Game extends AppCompatActivity {
             case "beginner":
                 intent = new Intent(Game.this, Beginner.class);
                 break;
+            /*
+            case "intermediate":
+                intent = new Intent(Game.this, Intermediate.class);
+                break;
+            case "advanced":
+                intent = new Intent(Game.this, Advanced.class);
+                break;
+            */
             default:
                 intent = new Intent(Game.this, MainActivity.class);
         }

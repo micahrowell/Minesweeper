@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class Beginner extends AppCompatActivity {
 
-    int size = 100, mines = 10, j = 0;
+    int size = 100, mines = 10, j = 0, winTaps = 90;
     int[] gameSpace = new int[size];
 
     Random rand = new Random();
