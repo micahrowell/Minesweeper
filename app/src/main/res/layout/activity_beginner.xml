@@ -79,7 +79,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_row="0"
-            android:layout_column="5"
+            android:layout_column="05"
             android:tag="5"
             android:onClick="testTag" />
         <ImageView

@@ -31,7 +31,8 @@
         android:text="@string/Intermediate"
         android:id="@+id/intermediate_button"
         android:layout_below="@+id/beginner_button"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:enabled="false"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -39,7 +40,8 @@
         android:text="@string/Advanced"
         android:id="@+id/advanced_button"
         android:layout_below="@+id/intermediate_button"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:enabled="false"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -48,7 +50,8 @@
         android:id="@+id/custom_button"
         android:layout_marginTop="30dp"
         android:layout_below="@+id/advanced_button"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:enabled="false"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -57,5 +60,6 @@
         android:id="@+id/high_scores_button"
         android:layout_below="@+id/custom_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="24dp"
+        android:enabled="false"/>
 </RelativeLayout>

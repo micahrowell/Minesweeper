@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Created by micah.J on 2/18/2017.
@@ -11,7 +12,9 @@ import android.view.View;
 
 public class Advanced extends AppCompatActivity {
 
-    public void newGame(View view){
+    TextView text = (TextView) findViewById(R.id.comingSoon);
+
+    public void newAdvGame(View view){
         Intent intent = new Intent(Advanced.this, Game.class);
         intent.putExtra("restart", "advanced");
         startActivity(intent);
@@ -22,7 +25,7 @@ public class Advanced extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced);
 
-
+        text.setText(R.string.Coming_Soon);
 
     }
 }

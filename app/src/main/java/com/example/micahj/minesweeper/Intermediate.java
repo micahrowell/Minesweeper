@@ -11,7 +11,7 @@ import android.view.View;
 
 public class Intermediate extends AppCompatActivity {
 
-    public void newGame(View view){
+    public void newInterGame(View view){
         Intent intent = new Intent(Intermediate.this, Game.class);
         intent.putExtra("restart", "intermediate");
         startActivity(intent);
