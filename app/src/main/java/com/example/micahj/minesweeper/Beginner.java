@@ -20,8 +20,6 @@ public class Beginner extends AppCompatActivity {
 
     public void testTag(View view){
         ImageView tile = (ImageView) view;
-        //System.out.println(tile.getTag());
-        //smiley = (ImageButton) findViewById(R.id.smileyButton);
 
         int tag = Integer.parseInt(tile.getTag().toString());
         int row = tag / 10;
@@ -31,7 +29,6 @@ public class Beginner extends AppCompatActivity {
             tile.setImageResource(R.drawable.mine);
             smiley.setEnabled(true);
             smiley.setImageResource(R.drawable.smiley_dead);
-            //return;
         }
 
         else {
