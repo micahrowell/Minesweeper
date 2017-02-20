@@ -31,8 +31,7 @@
         android:text="@string/Intermediate"
         android:id="@+id/intermediate_button"
         android:layout_below="@+id/beginner_button"
-        android:layout_centerHorizontal="true"
-        android:enabled="false"/>
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -40,8 +39,7 @@
         android:text="@string/Advanced"
         android:id="@+id/advanced_button"
         android:layout_below="@+id/intermediate_button"
-        android:layout_centerHorizontal="true"
-        android:enabled="false"/>
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"

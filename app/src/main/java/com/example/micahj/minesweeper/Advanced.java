@@ -14,12 +14,6 @@ public class Advanced extends AppCompatActivity {
 
     TextView text = (TextView) findViewById(R.id.comingSoon);
 
-    public void newAdvGame(View view){
-        Intent intent = new Intent(Advanced.this, Game.class);
-        intent.putExtra("restart", "advanced");
-        startActivity(intent);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

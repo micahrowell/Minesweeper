@@ -84,8 +84,8 @@ public class Beginner extends AppCompatActivity {
     }
 
     public void newGame(View view){
-        Intent intent = new Intent(Beginner.this, Game.class);
-        intent.putExtra("restart", "beginner");
+        Intent intent = getIntent();
+        finish();
         startActivity(intent);
     }
 
@@ -114,7 +114,7 @@ public class Beginner extends AppCompatActivity {
             }
 
             l++;
-            if(l%10 == 1)
+            if(l%10 == 9)
                 k++;
         }
 
