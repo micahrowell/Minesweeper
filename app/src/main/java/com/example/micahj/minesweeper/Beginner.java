@@ -1,6 +1,8 @@
 package com.example.micahj.minesweeper;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,8 @@ public class Beginner extends AppCompatActivity {
 
     ImageButton smiley;
 
+    Vibrator vibe;
+
     public void testTag(View view){
         ImageView tile = (ImageView) view;
 
@@ -27,6 +31,8 @@ public class Beginner extends AppCompatActivity {
 
         if(gameSpace[row][column] == 1){
             tile.setImageResource(R.drawable.mine);
+            vibe.vibrate(100);
+
             smiley.setEnabled(true);
             smiley.setImageResource(R.drawable.smiley_dead);
         }
@@ -74,10 +80,10 @@ public class Beginner extends AppCompatActivity {
                     tile.setImageResource(R.drawable.eight);
                     break;
             }
-
-            view.setEnabled(false);
             winTaps--;
+            //System.out.println(winTaps);
         }
+        tile.setEnabled(false);
     }
 
     public void newGame(View view){
@@ -92,6 +98,7 @@ public class Beginner extends AppCompatActivity {
         setContentView(R.layout.activity_beginner);
 
         smiley = (ImageButton) findViewById(R.id.smileyButton);
+        vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         smiley.setEnabled(false);
 
