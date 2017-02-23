@@ -25,8 +25,8 @@ public class Beginner extends AppCompatActivity {
     winTaps keeps track of whether the player has won. Since there are 100 tiles total with 10 mines
     in the game, a win means winTaps == 0
 
-    k & l are used by the while loop in the onCreate() method so that I can cycle through the 2D
-    array in order to place the mines
+    k & l represent the rows and columbs in the 2D array. They are used in the while loop in the
+    onCreate() method so that I can cycle through the 2D array in order to place the mines
 
     gameSpace is the 2D array representation of the game
     */
