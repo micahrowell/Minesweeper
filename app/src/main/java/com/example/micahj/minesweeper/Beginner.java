@@ -1,6 +1,8 @@
 package com.example.micahj.minesweeper;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -77,10 +79,27 @@ public class Beginner extends AppCompatActivity {
 
             view.setEnabled(false);
             winTaps--;
+            if(winTaps == 0){
+                new AlertDialog.Builder(Beginner.this)
+                        .setTitle("You won!")
+                        .setMessage("Play again?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                newGame();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
         }
     }
 
-    public void newGame(View view){
+    public void newGame(){
         Intent intent = getIntent();
         finish();
         startActivity(intent);
@@ -94,6 +113,15 @@ public class Beginner extends AppCompatActivity {
         smiley = (ImageButton) findViewById(R.id.smileyButton);
 
         smiley.setEnabled(false);
+
+        smiley.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                newGame();
+
+            }
+        });
 
         for(int i = 0; i < rowsColumns; i++){
             for(int j = 0; j < rowsColumns; j++){

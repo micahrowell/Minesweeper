@@ -16,8 +16,7 @@
         android:background="#777777"
         android:layout_centerHorizontal="true"
         android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:onClick="newGame" />
+        android:layout_height="75dp" />
 
     <GridLayout
         android:columnCount="10"
