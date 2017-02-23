@@ -1,6 +1,10 @@
 package com.example.micahj.minesweeper;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Vibrator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +22,11 @@ public class Beginner extends AppCompatActivity {
 
     ImageButton smiley;
 
-    public void testTag(View view){
+    //ImageView overlay;
+
+    Vibrator vibrator;
+
+    public void tileClick(View view){
         ImageView tile = (ImageView) view;
 
         int tag = Integer.parseInt(tile.getTag().toString());
@@ -26,9 +34,29 @@ public class Beginner extends AppCompatActivity {
         int column = tag % 10;
 
         if(gameSpace[row][column] == 1){
+            vibrator.vibrate(100);
+
             tile.setImageResource(R.drawable.mine);
+
             smiley.setEnabled(true);
             smiley.setImageResource(R.drawable.smiley_dead);
+
+            //overlay.setTranslationX(1000f);
+
+            new AlertDialog.Builder(Beginner.this)
+                    .setTitle("U ded.")
+                    .setMessage("Play again?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            newGame();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .show();
         }
 
         else {
@@ -75,12 +103,31 @@ public class Beginner extends AppCompatActivity {
                     break;
             }
 
-            view.setEnabled(false);
             winTaps--;
+
+            if(winTaps == 0){
+                new AlertDialog.Builder(Beginner.this)
+                        .setTitle("You won!")
+                        .setMessage("Play again?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                newGame();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // do nothing
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
         }
+
+        tile.setEnabled(false);
     }
 
-    public void newGame(View view){
+    public void newGame(){
         Intent intent = getIntent();
         finish();
         startActivity(intent);
@@ -91,9 +138,20 @@ public class Beginner extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beginner);
 
-        smiley = (ImageButton) findViewById(R.id.smileyButton);
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
+        //overlay = (ImageView) findViewById(R.id.clearOverlay);
+        //overlay.setTranslationX(-1000f);
+
+        smiley = (ImageButton) findViewById(R.id.smileyButton);
         smiley.setEnabled(false);
+        smiley.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                newGame();
+            }
+        });
 
         for(int i = 0; i < rowsColumns; i++){
             for(int j = 0; j < rowsColumns; j++){
