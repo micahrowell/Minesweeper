@@ -3,6 +3,7 @@ package com.example.micahj.minesweeper;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,9 +23,9 @@ public class Beginner extends AppCompatActivity {
 
     ImageButton smiley;
 
-    //ImageView overlay;
-
     Vibrator vibrator;
+
+    MediaPlayer bomb;
 
     public void tileClick(View view){
         ImageView tile = (ImageView) view;
@@ -36,24 +37,23 @@ public class Beginner extends AppCompatActivity {
         if(gameSpace[row][column] == 1){
             vibrator.vibrate(100);
 
+            bomb.start();
+
             tile.setImageResource(R.drawable.mine);
 
             smiley.setEnabled(true);
             smiley.setImageResource(R.drawable.smiley_dead);
 
-            //overlay.setTranslationX(1000f);
-
             new AlertDialog.Builder(Beginner.this)
                     .setTitle("U ded.")
-                    .setMessage("Play again?")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.playAgain, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             newGame();
                         }
                     })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.mainMenu, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
+                            finish();
                         }
                     })
                     .show();
@@ -140,8 +140,7 @@ public class Beginner extends AppCompatActivity {
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-        //overlay = (ImageView) findViewById(R.id.clearOverlay);
-        //overlay.setTranslationX(-1000f);
+        bomb = MediaPlayer.create(this, R.raw.explode);
 
         smiley = (ImageButton) findViewById(R.id.smileyButton);
         smiley.setEnabled(false);
