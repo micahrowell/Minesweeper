@@ -157,6 +157,7 @@ public class Beginner extends AppCompatActivity {
                 new AlertDialog.Builder(Beginner.this)
                         .setTitle("You won!")
                         .setMessage("Play again?")
+                        // Ich spreche gern Deutsch
                         .setPositiveButton("Ja!", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 newGame();
