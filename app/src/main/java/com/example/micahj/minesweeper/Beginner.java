@@ -48,13 +48,13 @@ public class Beginner extends AppCompatActivity {
 
     // When the player clicks a tile, this is what happens
     public void tileClick(View view){
-        // Not necessary but helps with understanding
+        // Not just any view, an ImageView
         ImageView tile = (ImageView) view;
 
         /*
         First I get the tag that I've given each tile. To find out the row this tile is in I simply
         divide by 10. To find the column I divide by 10 and use the remainder.
-         */
+        */
         int tag = Integer.parseInt(tile.getTag().toString());
         int row = tag / 10;
         int column = tag % 10;
@@ -180,7 +180,7 @@ public class Beginner extends AppCompatActivity {
     /*
     This function simply finishes the current activity and restarts it so that the player can play
     another exhilarating round
-     */
+    */
     public void newGame(){
         Intent intent = getIntent();
         finish();
