@@ -955,5 +955,43 @@
 
     </GridLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/smileyButton"
+        android:layout_marginStart="50dp"
+        android:background="#000000">
+
+        <TextView
+            android:text="888"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timerUnderlay"
+            android:textSize="40sp"
+            android:textColor="#FF2D00"
+            android:alpha="0"
+            android:layout_alignParentRight="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/timer"
+            android:textColor="#FF2D00"
+            android:textSize="40sp"
+            android:layout_centerHorizontal="false"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="3dp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="35dp"
+        android:src="@drawable/flag"
+        android:id="@+id/imageView100"
+        android:onClick="flag"
+        android:layout_below="@+id/smileyButton"
+        android:layout_centerHorizontal="true"
+        android:layout_height="100dp" />
+
 
 </RelativeLayout>

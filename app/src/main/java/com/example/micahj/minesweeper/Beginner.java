@@ -3,7 +3,9 @@ package com.example.micahj.minesweeper;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +13,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Beginner extends AppCompatActivity {
 
@@ -46,10 +53,34 @@ public class Beginner extends AppCompatActivity {
     // The phone will also play an explosion sound when the player trips the mine
     MediaPlayer bomb;
 
+    Timer timer;
+
+    boolean flagEnabled = false;
+
+    public void flag(View view){
+        ImageView tile = (ImageView) view;
+        if(flagEnabled){
+            flagEnabled = false;
+            tile.setImageResource(R.drawable.flag);
+        }
+        else {
+            flagEnabled = true;
+            tile.setImageResource(R.drawable.flag_press);
+        }
+    }
+
     // When the player clicks a tile, this is what happens
     public void tileClick(View view){
         // Not just any view, an ImageView
         ImageView tile = (ImageView) view;
+
+        if(flagEnabled){
+            tile.setEnabled(false);
+            tile.setImageResource(R.drawable.flag);
+            return;
+        }
+
+        tile.setEnabled(true);
 
         /*
         First I get the tag that I've given each tile. To find out the row this tile is in I simply
@@ -61,6 +92,9 @@ public class Beginner extends AppCompatActivity {
 
         // 1 represents a mine is present on this tile, thus a mine has been tripped
         if(gameSpace[row][column] == 1){
+
+            timer.cancel();
+
             // vibrate
             vibrator.vibrate(100);
 
@@ -154,6 +188,7 @@ public class Beginner extends AppCompatActivity {
             them an option to play again or not
             */
             if(winTaps == 0){
+                timer.cancel();
                 new AlertDialog.Builder(Beginner.this)
                         .setTitle("You won!")
                         .setMessage("Play again?")
@@ -192,6 +227,33 @@ public class Beginner extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beginner);
 
+        Typeface digital_font = Typeface.createFromAsset(getAssets(), "fonts/DS-DIGI.TTF");
+
+        TextView timeUnderlay = (TextView) findViewById(R.id.timerUnderlay);
+        final TextView showTime = (TextView) findViewById(R.id.timer);
+        showTime.setTypeface(digital_font);
+        timeUnderlay.setTypeface(digital_font);
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            int time = 0;
+
+            @Override
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showTime.setText(Integer.toString(time));
+                    }
+                });
+
+                time++;
+
+            }
+        }, 1000, 1000);
+
         // Initiating all necessary buttons, sounds, vibrators, yada yada yada...
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -210,6 +272,7 @@ public class Beginner extends AppCompatActivity {
 
         // Placing 10 random mines in the 2D array
         while(mines > 0){
+
 
             // Generating a random number out of 500.
             int n = rand.nextInt(500);
