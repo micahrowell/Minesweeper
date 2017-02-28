@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
-import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +13,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.Random;
 import java.util.Timer;
@@ -39,7 +36,7 @@ public class Beginner extends AppCompatActivity {
     */
 
     int rowsColumns = 10, mines = 10, winTaps = 90, k = 0, l = 0;
-    int[][] gameSpace = new int[rowsColumns][rowsColumns];
+    Tile[][] gameSpace = new Tile[rowsColumns][rowsColumns];
 
     // This will help generate a random number to determine whether or not to place a mine
     Random rand = new Random();
@@ -74,14 +71,6 @@ public class Beginner extends AppCompatActivity {
         // Not just any view, an ImageView
         ImageView tile = (ImageView) view;
 
-        if(flagEnabled){
-            tile.setEnabled(false);
-            tile.setImageResource(R.drawable.flag);
-            return;
-        }
-
-        tile.setEnabled(true);
-
         /*
         First I get the tag that I've given each tile. To find out the row this tile is in I simply
         divide by 10. To find the column I divide by 10 and use the remainder.
@@ -90,8 +79,22 @@ public class Beginner extends AppCompatActivity {
         int row = tag / 10;
         int column = tag % 10;
 
+        if(flagEnabled){
+            if (!gameSpace[row][column].isClickable()) {
+                gameSpace[row][column].setClickable(true);
+                tile.setImageResource(R.drawable.tile);
+                return;
+            }
+            gameSpace[row][column].setClickable(false);
+            tile.setImageResource(R.drawable.flag);
+            return;
+        }
+
+        if(!gameSpace[row][column].isClickable())
+            return;
+
         // 1 represents a mine is present on this tile, thus a mine has been tripped
-        if(gameSpace[row][column] == 1){
+        if(gameSpace[row][column].isMine()){
 
             timer.cancel();
 
@@ -142,7 +145,9 @@ public class Beginner extends AppCompatActivity {
                         continue;
 
                     // Otherwise add 1 to totalMines
-                    totalMines += gameSpace[i][j];
+                    if(gameSpace[i][j].isMine())
+                        totalMines++;
+
                 }
             }
 
@@ -270,6 +275,12 @@ public class Beginner extends AppCompatActivity {
             }
         });
 
+        for(int i = 0; i < rowsColumns; i++){
+            for(int j = 0; j < rowsColumns; j++){
+                gameSpace[i][j] = new Tile();
+            }
+        }
+
         // Placing 10 random mines in the 2D array
         while(mines > 0){
 
@@ -281,10 +292,10 @@ public class Beginner extends AppCompatActivity {
             I chose 5 because why not. Any number would work, really. I'm also making sure there's
             not already a mine at the given tile
             */
-            if(n == 5 && gameSpace[l%rowsColumns][k%rowsColumns] != 1){
+            if(n == 5 && !gameSpace[l%rowsColumns][k%rowsColumns].isMine()){
 
                 // I decided to do breadth-first traversal so l & k are "backwards"
-                gameSpace[l%rowsColumns][k%rowsColumns] = 1;
+                gameSpace[l%rowsColumns][k%rowsColumns].setMine();
                 mines--;
             }
 
