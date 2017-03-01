@@ -9,8 +9,9 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private Button beginner;
-    //private Button intermediate;
-    //private Button advanced;
+    private Button intermediate;
+    private Button advanced;
+    private Button highScores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +19,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         beginner = (Button) findViewById(R.id.beginner_button);
-        //intermediate = (Button) findViewById(R.id.intermediate_button);
-        //advanced = (Button) findViewById(R.id.advanced_button);
+        intermediate = (Button) findViewById(R.id.intermediate_button);
+        advanced = (Button) findViewById(R.id.advanced_button);
+
+        highScores = (Button) findViewById(R.id.high_scores_button);
 
         beginner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,7 +34,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
+        highScores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, HighScores.class);
+
+                startActivity(intent);
+            }
+        });
+
+
         intermediate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,9 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        */
 
-        /*
+
         advanced.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +67,5 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        */
     }
 }

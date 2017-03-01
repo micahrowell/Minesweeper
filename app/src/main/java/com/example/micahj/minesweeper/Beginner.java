@@ -3,6 +3,7 @@ package com.example.micahj.minesweeper;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
@@ -10,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,6 +53,12 @@ public class Beginner extends AppCompatActivity {
     MediaPlayer bomb;
 
     Timer timer;
+
+    long start, end;
+
+    double score;
+
+    SQLiteDatabase db;
 
     boolean flagEnabled = false;
 
@@ -194,21 +202,37 @@ public class Beginner extends AppCompatActivity {
             */
             if(winTaps == 0){
                 timer.cancel();
+                end = System.currentTimeMillis();
+                end -= start;
+                final EditText input = new EditText(Beginner.this);
                 new AlertDialog.Builder(Beginner.this)
                         .setTitle("You won!")
-                        .setMessage("Play again?")
-                        // Ich spreche gern Deutsch
-                        .setPositiveButton("Ja!", new DialogInterface.OnClickListener() {
+                        .setMessage("Enter your name:")
+                        .setView(input)
+                        .setPositiveButton("Save Score", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                newGame();
+
+                                score = end / 1000.0;
+
+                                String name = input.getText().toString(),
+                                stringScore = Double.toString(score);
+
+                                try{
+                                    db.execSQL("INSERT INTO scores (name, score) VALUES ('" +
+                                            name +"', " + stringScore + ")");
+                                } catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
+
+                                finish();
                             }
                         })
-                        .setNegativeButton("Nein!", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
                             }
                         })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .show();
             }
         }
@@ -259,22 +283,6 @@ public class Beginner extends AppCompatActivity {
             }
         }, 1000, 1000);
 
-        // Initiating all necessary buttons, sounds, vibrators, yada yada yada...
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
-        bomb = MediaPlayer.create(this, R.raw.explode);
-
-        smiley = (ImageButton) findViewById(R.id.smileyButton);
-
-        // If the smiley is clicked then a new game is started
-        smiley.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-
-                newGame();
-            }
-        });
-
         for(int i = 0; i < rowsColumns; i++){
             for(int j = 0; j < rowsColumns; j++){
                 gameSpace[i][j] = new Tile();
@@ -306,6 +314,33 @@ public class Beginner extends AppCompatActivity {
             l++;
             if(l%10 == 9)
                 k++;
+        }
+
+        // Initiating all necessary buttons, sounds, vibrators, yada yada yada...
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        bomb = MediaPlayer.create(this, R.raw.explode);
+
+        smiley = (ImageButton) findViewById(R.id.smileyButton);
+
+        // If the smiley is clicked then a new game is started
+        smiley.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                newGame();
+            }
+        });
+
+        start = System.currentTimeMillis();
+
+        try{
+
+            db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
+            db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score VARCHAR)");
+
+        } catch (Exception e){
+            e.printStackTrace();
         }
 
     }

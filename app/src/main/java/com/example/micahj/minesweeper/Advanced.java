@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 public class Advanced extends AppCompatActivity {
 
-    TextView text = (TextView) findViewById(R.id.comingSoon);
+    TextView text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced);
+
+        text = (TextView) findViewById(R.id.comingSoon);
 
         text.setText(R.string.Coming_Soon);
 
