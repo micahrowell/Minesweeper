@@ -25,15 +25,11 @@ public class Beginner extends AppCompatActivity {
     /*
     rowsColumns is the number of rows and columns in the 2D array. Since we'll be playing with
     a square rows = columns so there's no need for two variables.
-
     mines is the number of mines in the game, for beginner in a 10x10 we want 10 mines
-
     winTaps keeps track of whether the player has won. Since there are 100 tiles total with 10 mines
     in the game, a win means winTaps == 0
-
     k & l represent the rows and columbs in the 2D array. They are used in the while loop in the
     onCreate() method so that I can cycle through the 2D array in order to place the mines
-
     gameSpace is the 2D array representation of the game
     */
 
@@ -56,7 +52,7 @@ public class Beginner extends AppCompatActivity {
 
     long start, end;
 
-    double score;
+    int score;
 
     SQLiteDatabase db;
 
@@ -212,14 +208,14 @@ public class Beginner extends AppCompatActivity {
                         .setPositiveButton("Save Score", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                score = end / 1000.0;
+                                score = (int) end / 1000;
 
                                 String name = input.getText().toString(),
-                                stringScore = Double.toString(score);
+                                        stringScore = Integer.toString(score);
 
                                 try{
                                     db.execSQL("INSERT INTO scores (name, score) VALUES ('" +
-                                            name +"', " + stringScore + ")");
+                                            name +"\t\t', " + stringScore + ")");
                                 } catch (Exception e){
                                     e.printStackTrace();
                                 }
@@ -339,11 +335,12 @@ public class Beginner extends AppCompatActivity {
             db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
             db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score VARCHAR)");
 
+            // I use this to reset my database from time to time while I test it
+            //db.delete("scores", null, null);
+
         } catch (Exception e){
             e.printStackTrace();
         }
 
     }
 }
-
-
