@@ -34,7 +34,7 @@ public class HighScores extends AppCompatActivity {
 
             db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
 
-            Cursor c = db.rawQuery("SELECT * FROM scores", null);
+            Cursor c = db.rawQuery("SELECT * FROM scores ORDER BY score ASC", null);
 
             int nameIndex = c.getColumnIndex("name"),
                 scoreIndex = c.getColumnIndex("score");
@@ -54,6 +54,8 @@ public class HighScores extends AppCompatActivity {
                 c.moveToNext();
 
             }
+
+            c.close();
 
         } catch (Exception e){
             e.printStackTrace();

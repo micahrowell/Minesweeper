@@ -211,11 +211,11 @@ public class Beginner extends AppCompatActivity {
                                 score = (int) end / 1000;
 
                                 String name = input.getText().toString(),
-                                        stringScore = Integer.toString(score);
+                                       stringScore = Integer.toString(score);
 
                                 try{
                                     db.execSQL("INSERT INTO scores (name, score) VALUES ('" +
-                                            name +"\t\t', " + stringScore + ")");
+                                            name + "', " + stringScore + ")");
                                 } catch (Exception e){
                                     e.printStackTrace();
                                 }
@@ -258,26 +258,6 @@ public class Beginner extends AppCompatActivity {
         final TextView showTime = (TextView) findViewById(R.id.timer);
         showTime.setTypeface(digital_font);
         timeUnderlay.setTypeface(digital_font);
-
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-
-            int time = 0;
-
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showTime.setText(Integer.toString(time));
-                    }
-                });
-
-                time++;
-
-            }
-        }, 1000, 1000);
 
         for(int i = 0; i < rowsColumns; i++){
             for(int j = 0; j < rowsColumns; j++){
@@ -328,12 +308,10 @@ public class Beginner extends AppCompatActivity {
             }
         });
 
-        start = System.currentTimeMillis();
-
         try{
 
             db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
-            db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score VARCHAR)");
+            db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score VARCHAR");
 
             // I use this to reset my database from time to time while I test it
             //db.delete("scores", null, null);
@@ -342,5 +320,26 @@ public class Beginner extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        start = System.currentTimeMillis();
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            int time = 0;
+
+            @Override
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showTime.setText(Integer.toString(time));
+                    }
+                });
+
+                time++;
+
+            }
+        }, 1000, 1000);
     }
 }
