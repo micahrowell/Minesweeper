@@ -10,6 +10,7 @@ import android.os.Vibrator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -210,14 +211,15 @@ public class Beginner extends AppCompatActivity {
 
                                 score = (int) end / 1000;
 
-                                String name = input.getText().toString(),
-                                       stringScore = Integer.toString(score);
+                                String name = input.getText().toString();
+                                //stringScore = Integer.toString(score);
 
                                 try{
                                     db.execSQL("INSERT INTO scores (name, score) VALUES ('" +
-                                            name + "', " + stringScore + ")");
+                                            name + "', " + score + ")");
                                 } catch (Exception e){
                                     e.printStackTrace();
+                                    Log.i("error adding score", e.toString());
                                 }
 
 
@@ -269,7 +271,7 @@ public class Beginner extends AppCompatActivity {
         while(mines > 0){
 
 
-            // Generating a random number out of 500.
+            // Generating a random number from 0 - 499.
             int n = rand.nextInt(500);
 
             /*
@@ -311,13 +313,14 @@ public class Beginner extends AppCompatActivity {
         try{
 
             db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
-            db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score VARCHAR");
+            db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score INT)");
 
             // I use this to reset my database from time to time while I test it
             //db.delete("scores", null, null);
 
         } catch (Exception e){
             e.printStackTrace();
+            Log.i("error", e.toString());
         }
 
         start = System.currentTimeMillis();
