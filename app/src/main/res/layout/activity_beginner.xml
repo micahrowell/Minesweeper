@@ -72,7 +72,7 @@ android:id="@+id/main">
 
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView0"
+        android:id="@+id/imageView00"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -81,7 +81,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView1"
+        android:id="@+id/imageView01"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -90,7 +90,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView2"
+        android:id="@+id/imageView02"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -99,7 +99,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView3"
+        android:id="@+id/imageView03"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -108,7 +108,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView4"
+        android:id="@+id/imageView04"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -117,7 +117,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView5"
+        android:id="@+id/imageView05"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -126,7 +126,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView6"
+        android:id="@+id/imageView06"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -135,7 +135,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView7"
+        android:id="@+id/imageView07"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -144,7 +144,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView8"
+        android:id="@+id/imageView08"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"
@@ -153,7 +153,7 @@ android:id="@+id/main">
         android:onClick="tileClick" />
     <ImageView
         android:src="@drawable/tile"
-        android:id="@+id/imageView9"
+        android:id="@+id/imageView09"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_row="0"

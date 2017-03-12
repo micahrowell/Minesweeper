@@ -71,6 +71,88 @@ public class Beginner extends AppCompatActivity {
         }
     }
 
+    private void showEmpty(int row, int column){
+        if(row == -1 || row == 10 || column == -1 || column == 10)
+            return;
+        if(gameSpace[row][column].isMine())
+            return;
+        if(!gameSpace[row][column].isClickable())
+            return;
+
+
+        String idName = "imageView" + Integer.toString(row) + Integer.toString(column);
+        int id = getResources().getIdentifier(idName,"id","com.example.micahj.minesweeper");
+        ImageView tile = (ImageView) findViewById(id);
+
+        winTaps--;
+        gameSpace[row][column].setClickable(false);
+
+        /*
+            This will keep track of how many mines are surrounding this tile. That way I know which
+            image to place here so that the player can make the right decision.
+        */
+        int totalMines = 0;
+
+        // Checking every surrounding tile
+        for(int i = row - 1; i <= row + 1; i++){
+            for(int j = column - 1; j <= column + 1; j++){
+
+                // if i or j go out of bounds then do nothing
+                if(i == -1 || i == 10)
+                    continue;
+                if(j == -1 || j == 10)
+                    continue;
+
+                // Otherwise add 1 to totalMines
+                if(gameSpace[i][j].isMine())
+                    totalMines++;
+
+            }
+        }
+
+            /*
+            After all surrounding tiles have been checked I place the appropriate image on the tile
+            so the user can select the right tile
+            */
+        switch (totalMines) {
+            case 0:
+                tile.setImageResource(R.drawable.empty_tile);
+                showEmpty(row-1, column-1);
+                showEmpty(row-1, column);
+                showEmpty(row-1, column+1);
+                showEmpty(row, column-1);
+                showEmpty(row, column+1);
+                showEmpty(row+1, column-1);
+                showEmpty(row+1, column);
+                showEmpty(row+1, column+1);
+                break;
+            case 1:
+                tile.setImageResource(R.drawable.one);
+                break;
+            case 2:
+                tile.setImageResource(R.drawable.two);
+                break;
+            case 3:
+                tile.setImageResource(R.drawable.three);
+                break;
+            case 4:
+                tile.setImageResource(R.drawable.four);
+                break;
+            case 5:
+                tile.setImageResource(R.drawable.five);
+                break;
+            case 6:
+                tile.setImageResource(R.drawable.six);
+                break;
+            case 7:
+                tile.setImageResource(R.drawable.seven);
+                break;
+            case 8:
+                tile.setImageResource(R.drawable.eight);
+                break;
+        }
+    }
+
     // When the player clicks a tile, this is what happens
     public void tileClick(View view){
         // Not just any view, an ImageView
@@ -133,65 +215,7 @@ public class Beginner extends AppCompatActivity {
         }
 
         else {
-            /*
-            This will keep track of how many mines are surrounding this tile. That way I know which
-            image to place here so that the player can make the right decision.
-             */
-            int totalMines = 0;
-
-            // Checking every surrounding tile
-            for(int i = row - 1; i <= row + 1; i++){
-                for(int j = column - 1; j <= column + 1; j++){
-
-                    // if i or j go out of bounds then do nothing
-                    if(i == -1 || i == 10)
-                        continue;
-                    if(j == -1 || j == 10)
-                        continue;
-
-                    // Otherwise add 1 to totalMines
-                    if(gameSpace[i][j].isMine())
-                        totalMines++;
-
-                }
-            }
-
-            /*
-            After all surrounding tiles have been checked I place the appropriate image on the tile
-            so the user can select the right tile
-             */
-            switch (totalMines) {
-                case 0:
-                    tile.setImageResource(R.drawable.empty_tile);
-                    break;
-                case 1:
-                    tile.setImageResource(R.drawable.one);
-                    break;
-                case 2:
-                    tile.setImageResource(R.drawable.two);
-                    break;
-                case 3:
-                    tile.setImageResource(R.drawable.three);
-                    break;
-                case 4:
-                    tile.setImageResource(R.drawable.four);
-                    break;
-                case 5:
-                    tile.setImageResource(R.drawable.five);
-                    break;
-                case 6:
-                    tile.setImageResource(R.drawable.six);
-                    break;
-                case 7:
-                    tile.setImageResource(R.drawable.seven);
-                    break;
-                case 8:
-                    tile.setImageResource(R.drawable.eight);
-                    break;
-            }
-
-            // Tick off a value from winTap to keep track of the player's "score"
-            winTaps--;
+            showEmpty(row, column);
 
             /*
             If winTaps == 0 the player has won and I display a dialog letting them know and giving
@@ -236,7 +260,7 @@ public class Beginner extends AppCompatActivity {
         }
 
         // Disabling the tile from being clicked to prevent winTaps from prematurely reaching 0
-        tile.setEnabled(false);
+        // tile.setEnabled(false);
     }
 
     /*

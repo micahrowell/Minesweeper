@@ -12,9 +12,12 @@ public class Tile {
     private boolean isMine;
     private boolean clickable;
 
+    //ImageView tile;
+
     public Tile(){
         isMine = false;
         clickable = true;
+        //tile = (ImageView) v;
     }
 
     public boolean isMine(){
