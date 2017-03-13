@@ -31,24 +31,11 @@ public class HighScores extends AppCompatActivity {
 
         showScores = (ListView) findViewById(R.id.showScores);
 
-//        try{
-//
-//            db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
-//            //db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score VARCHAR");
-//
-//            // I use this to reset my database from time to time while I test it
-//            db.delete("scores", null, null);
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//            Log.i("error", e.toString());
-//        }
-
         try{
 
             db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
 
-            Cursor c = db.rawQuery("SELECT * FROM scores ORDER BY score DESC", null);
+            Cursor c = db.rawQuery("SELECT * FROM scores ORDER BY score * 1 ASC", null);
 
             int nameIndex = c.getColumnIndex("name"),
                 scoreIndex = c.getColumnIndex("score");

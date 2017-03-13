@@ -337,10 +337,10 @@ public class Beginner extends AppCompatActivity {
         try{
 
             db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
-            db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score INT)");
+            db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score INT(3))");
 
             // I use this to reset my database from time to time while I test it
-            //db.delete("scores", null, null);
+            // db.delete("scores", null, null);
 
         } catch (Exception e){
             e.printStackTrace();
