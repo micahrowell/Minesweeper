@@ -197,6 +197,18 @@ public class Beginner extends AppCompatActivity {
             // change the smiley button to the dead face
             smiley.setImageResource(R.drawable.smiley_dead);
 
+            for(int i=0; i < rowsColumns; i++){
+                for(int j=0; j < rowsColumns; j++){
+                    gameSpace[i][j].setClickable(false);
+                    if(gameSpace[i][j].isMine()){
+                        String idName = "imageView" + Integer.toString(i) + Integer.toString(j);
+                        int id = getResources().getIdentifier(idName,"id","com.example.micahj.minesweeper");
+                        ImageView mine = (ImageView) findViewById(id);
+                        mine.setImageResource(R.drawable.mine);
+                    }
+                }
+            }
+
             // Display a dialog telling the user they have lost and giving them the option of
             // trying again or exiting to the main menu
             new AlertDialog.Builder(Beginner.this)
@@ -222,9 +234,24 @@ public class Beginner extends AppCompatActivity {
             them an option to play again or not
             */
             if(winTaps == 0){
+
                 timer.cancel();
                 end = System.currentTimeMillis();
                 end -= start;
+
+                smiley.setImageResource(R.drawable.smiley_win);
+                for(int i=0; i < rowsColumns; i++){
+                    for(int j=0; j < rowsColumns; j++){
+                        gameSpace[i][j].setClickable(false);
+                        if(gameSpace[i][j].isMine()){
+                            String idName = "imageView" + Integer.toString(i) + Integer.toString(j);
+                            int id = getResources().getIdentifier(idName,"id","com.example.micahj.minesweeper");
+                            ImageView mine = (ImageView) findViewById(id);
+                            mine.setImageResource(R.drawable.flag);
+                        }
+                    }
+                }
+
                 final EditText input = new EditText(Beginner.this);
                 new AlertDialog.Builder(Beginner.this)
                         .setTitle("You won!")
@@ -252,7 +279,7 @@ public class Beginner extends AppCompatActivity {
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                finish();
+                                //finish();
                             }
                         })
                         .show();

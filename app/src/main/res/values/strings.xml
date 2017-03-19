@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Micah\'s Minesweeper</string>
+    <string name="app_name">Minesweeper</string>
     <string name="Beginner">Beginner</string>
     <string name="Intermediate">Intermediate - Coming Soon!</string>
     <string name="Advanced">Advanced - Coming Soon!</string>

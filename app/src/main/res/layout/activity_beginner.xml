@@ -24,7 +24,8 @@ android:id="@+id/main">
     android:layout_toEndOf="@+id/smileyButton"
     android:layout_marginStart="50dp"
     android:background="#000000"
-    android:layout_width="100dp">
+    android:layout_width="100dp"
+    android:id="@+id/relativeLayout">
 
     <TextView
         android:text="888"
