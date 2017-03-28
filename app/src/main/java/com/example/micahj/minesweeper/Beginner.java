@@ -211,6 +211,7 @@ public class Beginner extends AppCompatActivity {
 
             // Display a dialog telling the user they have lost and giving them the option of
             // trying again or exiting to the main menu
+            /*
             new AlertDialog.Builder(Beginner.this)
                     .setTitle("U ded.")
                     .setPositiveButton(R.string.playAgain, new DialogInterface.OnClickListener() {
@@ -224,7 +225,9 @@ public class Beginner extends AppCompatActivity {
                         }
                     })
                     .show();
+            */
         }
+
 
         else {
             showEmpty(row, column);
@@ -274,7 +277,7 @@ public class Beginner extends AppCompatActivity {
                                 }
 
 
-                                finish();
+                                //finish();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
