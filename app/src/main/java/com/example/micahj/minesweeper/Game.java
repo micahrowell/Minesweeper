@@ -21,7 +21,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Beginner extends AppCompatActivity {
+public class Game extends AppCompatActivity {
 
     /*
     rowsColumns is the number of rows and columns in the 2D array. Since we'll be playing with
@@ -29,13 +29,14 @@ public class Beginner extends AppCompatActivity {
     mines is the number of mines in the game, for beginner in a 10x10 we want 10 mines
     winTaps keeps track of whether the player has won. Since there are 100 tiles total with 10 mines
     in the game, a win means winTaps == 0
-    k & l represent the rows and columbs in the 2D array. They are used in the while loop in the
+    k & l represent the rows and columns in the 2D array. They are used in the while loop in the
     onCreate() method so that I can cycle through the 2D array in order to place the mines
     gameSpace is the 2D array representation of the game
     */
 
-    int rowsColumns = 10, mines = 10, winTaps = 90, k = 0, l = 0;
+    int rowsColumns = 10, mines, mineCount, winTaps, k = 0, l = 0;
     Tile[][] gameSpace = new Tile[rowsColumns][rowsColumns];
+
 
     // This will help generate a random number to determine whether or not to place a mine
     Random rand = new Random();
@@ -51,13 +52,18 @@ public class Beginner extends AppCompatActivity {
 
     Timer timer;
 
+    TextView showTime, showMines;
+
     long start, end;
 
     int score;
 
     SQLiteDatabase db;
 
-    boolean flagEnabled = false;
+    boolean flagEnabled = false,
+            timerStarted = false;
+
+    String gameType;
 
     public void flag(View view){
         ImageView tile = (ImageView) view;
@@ -155,6 +161,10 @@ public class Beginner extends AppCompatActivity {
 
     // When the player clicks a tile, this is what happens
     public void tileClick(View view){
+        if(!timerStarted){
+            startTimer();
+        }
+
         // Not just any view, an ImageView
         ImageView tile = (ImageView) view;
 
@@ -170,10 +180,16 @@ public class Beginner extends AppCompatActivity {
             if (!gameSpace[row][column].isClickable()) {
                 gameSpace[row][column].setClickable(true);
                 tile.setImageResource(R.drawable.tile);
+                mineCount++;
+                showMines.setText(Integer.toString(mineCount));
                 return;
             }
+            if(mineCount == 0)
+                return;
             gameSpace[row][column].setClickable(false);
             tile.setImageResource(R.drawable.flag);
+            mineCount--;
+            showMines.setText(Integer.toString(mineCount));
             return;
         }
 
@@ -208,24 +224,6 @@ public class Beginner extends AppCompatActivity {
                     }
                 }
             }
-
-            // Display a dialog telling the user they have lost and giving them the option of
-            // trying again or exiting to the main menu
-            /*
-            new AlertDialog.Builder(Beginner.this)
-                    .setTitle("U ded.")
-                    .setPositiveButton(R.string.playAgain, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            newGame();
-                        }
-                    })
-                    .setNegativeButton(R.string.mainMenu, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                    .show();
-            */
         }
 
 
@@ -255,8 +253,8 @@ public class Beginner extends AppCompatActivity {
                     }
                 }
 
-                final EditText input = new EditText(Beginner.this);
-                new AlertDialog.Builder(Beginner.this)
+                final EditText input = new EditText(Game.this);
+                new AlertDialog.Builder(Game.this)
                         .setTitle("You won!")
                         .setMessage("Enter your name:")
                         .setView(input)
@@ -269,8 +267,8 @@ public class Beginner extends AppCompatActivity {
                                 //stringScore = Integer.toString(score);
 
                                 try{
-                                    db.execSQL("INSERT INTO scores (name, score) VALUES ('" +
-                                            name + "', " + score + ")");
+                                    db.execSQL("INSERT INTO " + gameType + " (name, score) VALUES ('"
+                                            + name + "', " + score + ")");
                                 } catch (Exception e){
                                     e.printStackTrace();
                                     Log.i("error adding score", e.toString());
@@ -288,9 +286,32 @@ public class Beginner extends AppCompatActivity {
                         .show();
             }
         }
+    }
 
-        // Disabling the tile from being clicked to prevent winTaps from prematurely reaching 0
-        // tile.setEnabled(false);
+    private void startTimer(){
+        timerStarted = true;
+
+        start = System.currentTimeMillis();
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+
+            int time = 0;
+
+            @Override
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showTime.setText(Integer.toString(time));
+                    }
+                });
+
+                time++;
+
+            }
+        }, 1000, 1000);
     }
 
     /*
@@ -298,22 +319,47 @@ public class Beginner extends AppCompatActivity {
     another exhilarating round
     */
     public void newGame(){
-        Intent intent = getIntent();
-        finish();
-        startActivity(intent);
+
+        new AlertDialog.Builder(Game.this)
+                .setTitle("New Game")
+                .setMessage("Start a new game?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent intent = getIntent();
+                        finish();
+                        startActivity(intent);
+
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //finish();
+                    }
+                })
+                .show();
+
+
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_beginner);
+        setContentView(R.layout.activity_game);
+
+        Bundle extras = getIntent().getExtras();
+        mines = extras.getInt("mine count");
+        mineCount = mines;
 
         Typeface digital_font = Typeface.createFromAsset(getAssets(), "fonts/DS-DIGI.TTF");
 
-        TextView timeUnderlay = (TextView) findViewById(R.id.timerUnderlay);
-        final TextView showTime = (TextView) findViewById(R.id.timer);
+        showTime = (TextView) findViewById(R.id.timer);
         showTime.setTypeface(digital_font);
-        timeUnderlay.setTypeface(digital_font);
+
+        showMines = (TextView) findViewById(R.id.mineCount);
+        showMines.setTypeface(digital_font);
+        showMines.setText(Integer.toString(mineCount));
 
         for(int i = 0; i < rowsColumns; i++){
             for(int j = 0; j < rowsColumns; j++){
@@ -364,39 +410,43 @@ public class Beginner extends AppCompatActivity {
             }
         });
 
+        switch (mineCount){
+            case 10:
+
+                gameType = "beginner";
+                winTaps = 90;
+
+                break;
+
+            case 20:
+
+                gameType = "intermediate";
+                winTaps = 80;
+
+                break;
+
+            case 30:
+
+                gameType = "advanced";
+                winTaps = 70;
+
+                break;
+
+        }
+
         try{
 
             db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
-            db.execSQL("CREATE TABLE IF NOT EXISTS scores (name VARCHAR, score INT(3))");
-
-            // I use this to reset my database from time to time while I test it
-            // db.delete("scores", null, null);
+            db.execSQL("CREATE TABLE IF NOT EXISTS " + gameType + " (name VARCHAR, score INT(3))");
 
         } catch (Exception e){
             e.printStackTrace();
             Log.i("error", e.toString());
         }
 
-        start = System.currentTimeMillis();
+        // I use this to reset my database from time to time while I test it
+        // db.delete("scores", null, null);
 
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
 
-            int time = 0;
-
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showTime.setText(Integer.toString(time));
-                    }
-                });
-
-                time++;
-
-            }
-        }, 1000, 1000);
     }
 }

@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">Minesweeper</string>
-    <string name="Beginner">Beginner</string>
-    <string name="Intermediate">Intermediate - Coming Soon!</string>
-    <string name="Advanced">Advanced - Coming Soon!</string>
+    <string name="Beginner">Easy</string>
+    <string name="Intermediate">Medium</string>
+    <string name="Advanced">Hard</string>
     <string name="Custom">Custom - Coming Soon!</string>
     <string name="High_Scores">High Scores</string>
     <string name="Coming_Soon">Coming Soon!</string>
     <string name="playAgain">Play Again</string>
     <string name="mainMenu">Main Menu</string>
+    <string name="title_activity_all_high_scores">AllHighScores</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>

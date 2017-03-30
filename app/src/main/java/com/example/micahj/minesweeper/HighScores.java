@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TabHost;
 
 import java.util.ArrayList;
 
@@ -18,24 +19,57 @@ public class HighScores extends AppCompatActivity {
 
     SQLiteDatabase db;
 
-    ArrayList<String> scores;
+    ArrayList<String> begScores,
+                      intScores,
+                      advScores;
 
-    ListView showScores;
+    ListView showBegScores,
+             showIntScores,
+             showAdvScores;
+
+    TabHost host;
+
+    ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscores);
 
-        scores = new ArrayList<>();
+        begScores = new ArrayList<>();
+        intScores = new ArrayList<>();
+        advScores = new ArrayList<>();
 
-        showScores = (ListView) findViewById(R.id.showScores);
+        host = (TabHost) findViewById(R.id.tabHost);
+        host.setup();
+
+        // Beginner Tab
+        TabHost.TabSpec spec = host.newTabSpec("Beginner Tab");
+        spec.setContent(R.id.showBegScores);
+        spec.setIndicator("Easy");
+        host.addTab(spec);
+
+        // Intermediate Tab
+        spec = host.newTabSpec("Intermediate Tab");
+        spec.setContent(R.id.showIntScores);
+        spec.setIndicator("Medium");
+        host.addTab(spec);
+
+        // Advanced Tab
+        spec = host.newTabSpec("Advanced Tab");
+        spec.setContent(R.id.showAdvScores);
+        spec.setIndicator("Hard");
+        host.addTab(spec);
+
+        showBegScores = (ListView) findViewById(R.id.showBegScores);
+        showIntScores = (ListView) findViewById(R.id.showIntScores);
+        showAdvScores = (ListView) findViewById(R.id.showAdvScores);
 
         try{
 
             db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
 
-            Cursor c = db.rawQuery("SELECT * FROM scores ORDER BY score * 1 ASC", null);
+            Cursor c = db.rawQuery("SELECT * FROM beginner ORDER BY score * 1 ASC", null);
 
             int nameIndex = c.getColumnIndex("name"),
                 scoreIndex = c.getColumnIndex("score");
@@ -50,7 +84,7 @@ public class HighScores extends AppCompatActivity {
                 highScore += "\t\t";
                 highScore += c.getString(scoreIndex);
 
-                scores.add(highScore);
+                begScores.add(highScore);
 
                 c.moveToNext();
 
@@ -63,8 +97,82 @@ public class HighScores extends AppCompatActivity {
             Log.i("error", e.toString());
         }
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, scores);
-        showScores.setAdapter(arrayAdapter);
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, begScores);
+        showBegScores.setAdapter(arrayAdapter);
+
+
+
+        try{
+
+            db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
+
+            Cursor c = db.rawQuery("SELECT * FROM intermediate ORDER BY score * 1 ASC", null);
+
+            int nameIndex = c.getColumnIndex("name"),
+                    scoreIndex = c.getColumnIndex("score");
+
+            c.moveToFirst();
+
+            while(c != null){
+
+                String highScore = "";
+
+                highScore += c.getString(nameIndex);
+                highScore += "\t\t";
+                highScore += c.getString(scoreIndex);
+
+                intScores.add(highScore);
+
+                c.moveToNext();
+
+            }
+
+            c.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.i("error", e.toString());
+        }
+
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, intScores);
+        showIntScores.setAdapter(arrayAdapter);
+
+
+
+        try{
+
+            db = this.openOrCreateDatabase("High Scores", MODE_PRIVATE, null);
+
+            Cursor c = db.rawQuery("SELECT * FROM advanced ORDER BY score * 1 ASC", null);
+
+            int nameIndex = c.getColumnIndex("name"),
+                    scoreIndex = c.getColumnIndex("score");
+
+            c.moveToFirst();
+
+            while(c != null){
+
+                String highScore = "";
+
+                highScore += c.getString(nameIndex);
+                highScore += "\t\t";
+                highScore += c.getString(scoreIndex);
+
+                advScores.add(highScore);
+
+                c.moveToNext();
+
+            }
+
+            c.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.i("error", e.toString());
+        }
+
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, advScores);
+        showAdvScores.setAdapter(arrayAdapter);
 
     }
 

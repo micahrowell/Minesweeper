@@ -28,17 +28,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, Beginner.class);
+                Intent intent = new Intent(MainActivity.this, Game.class);
 
-                startActivity(intent);
-            }
-        });
-
-        highScores.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(MainActivity.this, HighScores.class);
+                intent.putExtra("mine count", 10);
 
                 startActivity(intent);
             }
@@ -49,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, Intermediate.class);
-                //intent.putExtra("intermediate", 20);
+                Intent intent = new Intent(MainActivity.this, Game.class);
+
+                intent.putExtra("mine count", 20);
 
                 startActivity(intent);
             }
@@ -61,8 +54,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(MainActivity.this, Advanced.class);
-                //intent.putExtra("advanced", 30);
+                Intent intent = new Intent(MainActivity.this, Game.class);
+
+                intent.putExtra("mine count", 30);
+
+                startActivity(intent);
+            }
+        });
+
+
+        highScores.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, HighScores.class);
 
                 startActivity(intent);
             }
