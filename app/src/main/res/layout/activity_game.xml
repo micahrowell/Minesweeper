@@ -996,8 +996,10 @@ android:id="@+id/main">
         android:id="@+id/mineCountRelativeLayout"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:background="#000000"
         android:layout_alignParentTop="true"
-        android:background="#000000">
+        android:layout_toStartOf="@+id/smileyButton"
+        android:layout_marginEnd="72dp">
 
         <TextView
             android:id="@+id/mineCount"
